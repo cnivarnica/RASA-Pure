@@ -12,7 +12,7 @@ class ActionStartGame(Action):
         return "action_start_game"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(text="Welcome to RPG Quest! You find yourself in the village square. Type 'look' to see what's around you.")
+        dispatcher.utter_message(response="utter_greet")
 
         return [
             SlotSet("hp", 100),
@@ -40,14 +40,14 @@ class ActionMove(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         game_state = tracker.get_slot("game_state")
         if game_state != "exploring":
-            dispatcher.utter_message(text="You can't move right now.")
+            dispatcher.utter_message(response="utter_cannot_move")
             return [SlotSet("direction", None)]
 
         direction = tracker.get_slot("direction")
         current_room = tracker.get_slot("current_room")
 
         if current_room not in rooms:
-            dispatcher.utter_message(text="You seem to be lost. Returning to the village square.")
+            dispatcher.utter_message(response="utter_lost")
             return [SlotSet("current_room", "village_square"), SlotSet("direction", None)]
 
         if not direction:  # No direction entity provided
@@ -55,9 +55,9 @@ class ActionMove(Action):
                 buttons = []
                 for exit_direction in rooms[current_room]["exits"].keys():
                     buttons.append({"title": exit_direction.capitalize(), "payload": f'/move{{"direction":"{exit_direction}"}}'})
-                dispatcher.utter_message(text="Which direction would you like to move?", buttons=buttons)
+                dispatcher.utter_message(response="utter_which_direction", buttons=buttons)
             else:
-                dispatcher.utter_message(text="There are no exits from this room.")
+                dispatcher.utter_message(response="utter_no_exit")
             return []
 
         if direction in rooms[current_room]["exits"]:
@@ -65,7 +65,7 @@ class ActionMove(Action):
             dispatcher.utter_message(text=f"You move {direction} to {new_room}.")
             return [SlotSet("current_room", new_room), SlotSet("direction", None), FollowupAction("action_look")]
         else:
-            dispatcher.utter_message(text="You can't go that way.")
+            dispatcher.utter_message(response="utter_invalid_move")
             return [SlotSet("direction", None)]
 #
 class ActionLook(Action):
@@ -93,12 +93,12 @@ class ActionLook(Action):
 
                 dispatcher.utter_message(text=message)
             else:
-                dispatcher.utter_message(text="You seem to be lost. Returning to the village square.")
+                dispatcher.utter_message(response="utter_lost")
                 return [SlotSet("current_room", "village_square")]
             return []
         except Exception as e:
             print(f"Error in ActionLook: {str(e)}")
-            dispatcher.utter_message(text="I'm sorry, I couldn't process that action right now.")
+            dispatcher.utter_message(response="utter_action_error")
             return []
 
     def get_time_of_day(self, tracker):
@@ -123,7 +123,7 @@ class ActionExplore(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         game_state = tracker.get_slot("game_state")
         if game_state != "exploring":
-            dispatcher.utter_message(text="You can't explore right now.")
+            dispatcher.utter_message(response="utter_cannot_explore")
             return []
 
         current_room = tracker.get_slot("current_room")
@@ -133,19 +133,19 @@ class ActionExplore(Action):
             found_item = random.choice(room_info.get("items", ["potion"]))
             inventory = tracker.get_slot("inventory") or []
             inventory.append(found_item)
-            dispatcher.utter_message(text=f"You found a {found_item}!")
+            dispatcher.utter_message(response="utter_explore_item", item=found_item)
             return [SlotSet("inventory", inventory)]
 
         elif random.random() < 0.3:
             enemy = random.choice(room_info.get("enemies", ["wolf"]))
-            dispatcher.utter_message(text=f"You encounter a {enemy}!")
+            dispatcher.utter_message(response="utterutter_explore_enemy", enemy=enemy)
             return [SlotSet("enemy", enemy), SlotSet("game_state", "in_combat")]
 
         else:
             material = random.choice(["wood", "stone", "herb"])
             crafting_materials = tracker.get_slot("crafting_materials") or []
             crafting_materials.append(material)
-            dispatcher.utter_message(text=f"You found some {material}.")
+            dispatcher.utter_message(response="utter_explore_material", material=material)
             return [SlotSet("crafting_materials", crafting_materials)]
 #
 class ActionStatus(Action):
@@ -286,7 +286,7 @@ class ActionGetItem(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         game_state = tracker.get_slot("game_state")
         if game_state != "exploring":
-            dispatcher.utter_message(text="You can't pick up items right now.")
+            dispatcher.utter_message(response="utter_cannot_get_item")
             return [SlotSet("item", None)]
 
         item = tracker.get_slot("item")
@@ -298,19 +298,19 @@ class ActionGetItem(Action):
                 buttons = []
                 for item_name in room_info["items"]:
                     buttons.append({"title": item_name.capitalize(), "payload": f'/get_item{{"item":"{item_name}"}}'})
-                dispatcher.utter_message(text="Which item would you like to pick up?", buttons=buttons)
+                dispatcher.utter_message(response="utter_get_which_item", buttons=buttons)
             else:
-                dispatcher.utter_message(text="There are no items to pick up here.")
+                dispatcher.utter_message(response="utter_no_items_to_get")
             return []
 
         if item in room_info["items"]:
             inventory = tracker.get_slot("inventory") or []
             inventory.append(item)
             room_info["items"].remove(item)
-            dispatcher.utter_message(text=f"You picked up the {item}. {items[item]['description']}")
+            dispatcher.utter_message(response="utter_item_got", item=item, description={items[item]['description']})
             return [SlotSet("inventory", inventory), SlotSet("item", None)]
         else:
-            dispatcher.utter_message(text=f"There's no {item} here.")
+            dispatcher.utter_message(response="utter_no_item_to_get", item=item)
             return [SlotSet("item", None)]
 
 class ActionUseItem(Action):
@@ -320,7 +320,7 @@ class ActionUseItem(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         game_state = tracker.get_slot("game_state")
         if game_state not in ["exploring", "in_combat"]:
-            dispatcher.utter_message(text="You can't use items right now.")
+            dispatcher.utter_message(response="utter_cannot_use_items")
             return [SlotSet("item", None)]
 
         item = tracker.get_slot("item")
@@ -331,9 +331,9 @@ class ActionUseItem(Action):
                 buttons = []
                 for item_name in inventory:
                     buttons.append({"title": item_name, "payload": f'/use_item{{"item":"{item_name}"}}'})
-                dispatcher.utter_message(text="Which item would you like to use?", buttons=buttons)
+                dispatcher.utter_message(response="utter_use_which_item", buttons=buttons)
             else:
-                dispatcher.utter_message(text="You don't have any items to use.")
+                dispatcher.utter_message(response="utter_no_items_to_use")
             return []
 
         if item in inventory:
@@ -353,10 +353,10 @@ class ActionUseItem(Action):
                 dispatcher.utter_message(text=f"You equipped the {item}, gaining {bonus} {stat.upper()} points.")
                 return [SlotSet(stat, new_stat), SlotSet("inventory", inventory), SlotSet("item", None)]
             else:
-                dispatcher.utter_message(text=f"You can't use the {item} right now.")
+                dispatcher.utter_message(response="utter_cannot_use_item", item=item)
                 return [SlotSet("item", None)]
         else:
-            dispatcher.utter_message(text=f"You don't have a {item} in your inventory.")
+            dispatcher.utter_message(response="utter_item_not_in_inventory", item=item)
             return [SlotSet("item", None)]
 
 class ActionInventory(Action):
@@ -381,7 +381,7 @@ class ActionShop(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         game_state = tracker.get_slot("game_state")
         if game_state != "exploring":
-            dispatcher.utter_message(text="You can't shop right now.")
+            dispatcher.utter_message(response="utter_cannot_shop")
             return []
 
         current_room = tracker.get_slot("current_room")
@@ -395,7 +395,7 @@ class ActionShop(Action):
             dispatcher.utter_message(text=message)
             return [SlotSet("game_state", "shopping")]
         else:
-            dispatcher.utter_message(text="There's no shop here.")
+            dispatcher.utter_message(response="utter_no_shop")
             return []
 
 class ActionBuyItem(Action):
@@ -405,7 +405,7 @@ class ActionBuyItem(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         game_state = tracker.get_slot("game_state")
         if game_state != "shopping":
-            dispatcher.utter_message(text="You are not in a shop.")
+            dispatcher.utter_message(response="utter_not_in_shop")
             return []
         
         item = tracker.get_slot("item")
@@ -421,9 +421,9 @@ class ActionBuyItem(Action):
                 for item_name in shop_info["items"]:
                     buttons.append({"title": f"{item_name} ({items[item_name]['value']} GP)", 
                                     "payload": f'/buy_item{{"item":"{item_name}"}}'})
-                dispatcher.utter_message(text="What would you like to buy?", buttons=buttons)
+                dispatcher.utter_message(response="utter_what_to_buy", buttons=buttons)
             else:
-                dispatcher.utter_message(text="There are no items available in this shop.")
+                dispatcher.utter_message(response="utter_nothing_to_buy")
             return []
 
         if item in shop_info["items"]:
@@ -432,12 +432,12 @@ class ActionBuyItem(Action):
                 gp -= item_cost
                 inventory = tracker.get_slot("inventory") or []
                 inventory.append(item)
-                dispatcher.utter_message(text=f"You bought {item} for {item_cost} GP.")
+                dispatcher.utter_message(response="utter_shop_buy_success", item=item, cost=item_cost)
                 return [SlotSet("gp", gp), SlotSet("inventory", inventory), SlotSet("item", None)]
             else:
-                dispatcher.utter_message(text="You don't have enough GP.")
+                dispatcher.utter_message(response="utter_not_enough_money", item=item, cost=item_cost, gp=gp)
         else:
-            dispatcher.utter_message(text="That item is not available in this shop.")
+            dispatcher.utter_message(response="utter_shop_no_such_item", item=item)
         return [SlotSet("item", None), SlotSet("game_state", "exploring")]
 
 class ActionTrade(Action):
@@ -447,18 +447,18 @@ class ActionTrade(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         current_room = tracker.get_slot("current_room")
         game_state = tracker.get_slot("game_state")
-        if current_room != "village_square" and game_state != "exploring":
-            dispatcher.utter_message(text="You need to be in the village square to trade.")
+        if game_state != "exploring":
+            dispatcher.utter_message(response="utter_cannot_trade")
             return []
 
         current_room = tracker.get_slot("current_room")
         if "merchant" not in rooms[current_room].get("npcs", []):
-            dispatcher.utter_message(text="There's no one to trade with here.")
+            dispatcher.utter_message(response="utter_no_trade")
             return []
 
         inventory = tracker.get_slot("inventory") or []
         if not inventory:
-            dispatcher.utter_message(text="You don't have anything to trade.")
+            dispatcher.utter_message(response="utter_no_items_to_trade")
             return []
 
         trade_options = {
@@ -472,7 +472,6 @@ class ActionTrade(Action):
             message += f"{item}: {value} GP\n"
 
         dispatcher.utter_message(text=message)
-        dispatcher.utter_message(text="What would you like to trade? (Use 'trade [item]' to trade an item)")
 
         return [SlotSet("game_state", "shopping")]
 
@@ -483,7 +482,7 @@ class ActionExecuteTrade(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         game_state = tracker.get_slot("game_state")
         if game_state != "shopping":
-            dispatcher.utter_message(text="You're not trading right now.")
+            dispatcher.utter_message(response="utter_not_in_trade")
             return []
 
         trade_item = tracker.get_slot("trade_item")
@@ -504,9 +503,9 @@ class ActionExecuteTrade(Action):
                 for item in tradeable_items:
                     buttons.append({"title": f"{item} ({trade_options[item]} GP)", 
                                     "payload": f'/execute_trade{{"trade_item":"{item}"}}'})
-                dispatcher.utter_message(text="What would you like to trade?", buttons=buttons)
+                dispatcher.utter_message(response="utter_trade_which_item", buttons=buttons)
             else:
-                dispatcher.utter_message(text="You don't have any items to trade.")
+                dispatcher.utter_message(response="utter_no_items_to_trade")
             return []
 
         if trade_item in inventory:
@@ -516,7 +515,7 @@ class ActionExecuteTrade(Action):
             dispatcher.utter_message(text=f"You traded {trade_item} for {value} GP.")
             return [SlotSet("inventory", inventory), SlotSet("gp", gp), SlotSet("game_state", "exploring"), SlotSet("trade_item", None)]
         else:
-            dispatcher.utter_message(text=f"You don't have a {trade_item} to trade.")
+            dispatcher.utter_message(response="utter_trade_item_not_found" item=trade_item)
             return [SlotSet("trade_item", None), SlotSet("game_state", "exploring")]
 
 class ActionAttack(Action):
@@ -536,16 +535,16 @@ class ActionAttack(Action):
                     buttons = []
                     for enemy_name in room_info["enemies"]:
                         buttons.append({"title": enemy_name, "payload": f'/attack{{"enemy":"{enemy_name}"}}'})
-                    dispatcher.utter_message(text="Which enemy would you like to attack?", buttons=buttons)
+                    dispatcher.utter_message(response="utter_attack_which_enemy", buttons=buttons)
                 else:
-                    dispatcher.utter_message(text="There are no enemies here to attack.")
+                    dispatcher.utter_message(response="utter_no_enemies")
                 return []
 
             if enemy in room_info.get("enemies", []):
-                dispatcher.utter_message(text=f"You engage in combat with the {enemy}!")
+                dispatcher.utter_message(response="utter_start_combat" enemy=enemy)
                 return [SlotSet("game_state", "in_combat"), SlotSet("enemy", enemy)]
             else:
-                dispatcher.utter_message(text=f"There's no {enemy} here to attack.")
+                dispatcher.utter_message(response="utter_no_such_enemy" enemy=enemy)
                 return []
 
         # Continue combat
@@ -586,7 +585,7 @@ class ActionAttack(Action):
             dispatcher.utter_message(text=message)
             return [SlotSet("hp", player_hp), SlotSet("game_state", "in_combat"), SlotSet("enemy", enemy)]
         else:
-            dispatcher.utter_message(text=f"There's no {enemy} here to attack.")
+            dispatcher.utter_message(response="utter_no_such_enemy" enemy=enemy)
             return [SlotSet("game_state", "exploring"), SlotSet("enemy", None)]
 #
 class ActionRunAway(Action):
@@ -595,15 +594,16 @@ class ActionRunAway(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         game_state = tracker.get_slot("game_state")
+        enemy = tracker.get_slot("enemy")
         if game_state != "in_combat":
             dispatcher.utter_message(text="You are not in combat.")
             return []
         success_chance = 0.7
         if random.random() < success_chance:
-            dispatcher.utter_message(text="You successfully ran away from the battle.")
+            dispatcher.utter_message(response="utter_run_success" enemy=enemy)
             return [SlotSet("game_state", "exploring"), SlotSet("enemy", None)]
         else:
-            dispatcher.utter_message(text="You failed to run away. The enemy attacks!")
+            dispatcher.utter_message(response="utter_run_fail" enemy=enemy)
             return [FollowupAction("action_attack")]
 #
 class ActionCheckLevelUp(Action):
@@ -614,9 +614,9 @@ class ActionCheckLevelUp(Action):
         xp = tracker.get_slot("xp") or 0
         level = tracker.get_slot("level") or 1
         if xp >= level * 100:
-            dispatcher.utter_message(text="You have enough XP to level up!")
+            dispatcher.utter_message(response="utter_enough_xp")
             return [SlotSet("game_state", "leveling_up"), FollowupAction("action_level_up")]
-        dispatcher.utter_message(text=f"You need {level * 100 - xp} more XP to level up.")
+        dispatcher.utter_message(response="utter_xp_to_next_level" , xp_to_next_level=level * 100 - xp)
         return []
 #
 class ActionLevelUp(Action):
@@ -627,7 +627,7 @@ class ActionLevelUp(Action):
         game_state = tracker.get_slot("game_state")
         
         if game_state != "leveling_up":
-            dispatcher.utter_message(text="You're not currently in a state to level up.")
+            dispatcher.utter_message(response="utter_not_leveling_up")
             return []
 
         xp = tracker.get_slot("xp") or 0
@@ -636,7 +636,8 @@ class ActionLevelUp(Action):
         
         level += 1
         xp -= next_level_xp
-        dispatcher.utter_message(text=f"Congratulations! You've reached level {level}.\n\n Choose a stat to increase: STR, CON, SPD, or ATK.")
+        dispatcher.utter_message(response="utter_level_up" level=level)
+        dispatcher.utter_message(response="utter_choose_stat")
         return [SlotSet("level", level), SlotSet("xp", xp)]
 #
 class ActionIncreaseStat(Action):
@@ -656,19 +657,19 @@ class ActionIncreaseStat(Action):
                     {"title": "SPD", "payload": '/increase_stat{"stat":"spd"}'},
                     {"title": "ATK", "payload": '/increase_stat{"stat":"atk"}'}
                 ]
-                dispatcher.utter_message(text="Which stat would you like to increase?", buttons=buttons)
+                dispatcher.utter_message(response="utter_choose_stat", buttons=buttons)
                 return []
             else:
                 # Validate the stat name
                 valid_stats = ["str", "con", "spd", "atk"]
                 if stat.lower() not in valid_stats:
-                    dispatcher.utter_message(text=f"'{stat}' is not a valid stat. Please choose one of: {', '.join(valid_stats).upper()}.")
+                    dispatcher.utter_message(response="utter_invalid_stat", stat=stat)
                     return [SlotSet("stat", None)]
 
                 # Increase the stat
                 current_value = tracker.get_slot(stat.lower()) or 0
                 current_value += 1
-                dispatcher.utter_message(text=f"Your {stat.upper()} increased to {current_value}.")
+                dispatcher.utter_message(response="utter_stat_increased", stat=stat, value=current_value)
                 return [
                     SlotSet(stat.lower(), current_value),
                     SlotSet("game_state", "exploring"),
@@ -676,7 +677,7 @@ class ActionIncreaseStat(Action):
                     FollowupAction("action_check_level_up")
                 ]
         else:
-            dispatcher.utter_message(text="You are not leveling up right now.")
+            dispatcher.utter_message(response="utter_not_leveling_up")
             return [SlotSet("stat", None)]
 #
 class ActionQuestInfo(Action):
@@ -686,9 +687,9 @@ class ActionQuestInfo(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         current_quest = tracker.get_slot("current_quest")
         if current_quest:
-            dispatcher.utter_message(text=f"Your current quest: {current_quest}")
+            dispatcher.utter_message(response="utter_quest_info", current_quest=current_quest)
         else:
-            dispatcher.utter_message(text="You don't have any active quests at the moment.")
+            dispatcher.utter_message(response="utter_no_quest")
         return []
 
 class ActionTalkToNPC(Action):
@@ -705,21 +706,22 @@ class ActionTalkToNPC(Action):
                 buttons = []
                 for npc_name in room_info["npcs"]:
                     buttons.append({"title": npc_name, "payload": f'/talk_to_npc{{"npc":"{npc_name}"}}'})
-                dispatcher.utter_message(text="Who would you like to talk to?", buttons=buttons)
+                dispatcher.utter_message(response="utter_talk_to_who", buttons=buttons)
             else:
-                dispatcher.utter_message(text="There's no one here to talk to.")
+                dispatcher.utter_message(response="utter_no_npcs")
             return []
 
         if npc in room_info["npcs"]:
             npc_info = npcs[npc]
             dialogue = npc_info["dialogue"]
-            dispatcher.utter_message(text=f"{npc} says: '{dialogue}'")
+            dispatcher.utter_message(text=f"You talk to {npc}.")
+            dispatcher.utter_message(response="utter_talk_to_npc", dialogue=dialogue)
 
             if npc_info.get("quest") and not tracker.get_slot("current_quest"):
-                dispatcher.utter_message(text=f"{npc} has a quest for you: {npc_info['quest']}")
+                dispatcher.utter_message(response="utter_npc_gives_quest", npc=npc, quest=npc_info["quest"])
                 return [SlotSet("current_quest", npc_info["quest"]), SlotSet("npc", None)]
         else:
-            dispatcher.utter_message(text=f"There's no {npc} here to talk to.")
+            dispatcher.utter_message(response="utter_no_such_npc" npc=npc)
         
         return [SlotSet("npc", None)]
 
@@ -732,7 +734,7 @@ class ActionCompleteQuest(Action):
         inventory = tracker.get_slot("inventory") or []
         
         if not current_quest:
-            dispatcher.utter_message(text="You don't have an active quest to complete.")
+            dispatcher.utter_message(response="utter_no_done_quests")
             return []
 
         if "wolf pelt" in current_quest.lower() and inventory.count("wolf_pelt") >= 3:
@@ -741,14 +743,14 @@ class ActionCompleteQuest(Action):
             xp += 100
             gp += 50
             inventory = [item for item in inventory if item != "wolf_pelt"]
-            dispatcher.utter_message(text="You've completed the wolf pelt quest! You gain 100 XP and 50 GP.")
+            dispatcher.utter_message(response="utter_completed_wolf_pelt_quest")
             return [SlotSet("xp", xp), SlotSet("gp", gp), SlotSet("inventory", inventory), SlotSet("current_quest", None)]
         
         elif "lost amulet" in current_quest.lower() and "old_man_amulet" in inventory:
             xp = tracker.get_slot("xp") or 0
             xp += 150
             inventory.remove("old_man_amulet")
-            dispatcher.utter_message(text="You've returned the lost amulet! You gain 150 XP and learn a new spell: Fireball!")
+            dispatcher.utter_message(response="utter_completed_old_man_amulet_quest")
             return [SlotSet("xp", xp), SlotSet("inventory", inventory), SlotSet("current_quest", None), SlotSet("known_spells", tracker.get_slot("known_spells") + ["fireball"])]
         
         elif "ghost dog" in current_quest.lower() and "ghost_dog" not in rooms["deep_forest"]["enemies"]:
@@ -756,11 +758,11 @@ class ActionCompleteQuest(Action):
             gp = tracker.get_slot("gp") or 0
             xp += 200
             gp += 100
-            dispatcher.utter_message(text="You've defeated the ghost dog! The innkeeper rewards you with 200 XP and 100 GP.")
+            dispatcher.utter_message(response="utter_completed_ghost_dog_quest")
             return [SlotSet("xp", xp), SlotSet("gp", gp), SlotSet("current_quest", None)]
         
         else:
-            dispatcher.utter_message(text="You haven't completed the requirements for your current quest yet.")
+            dispatcher.utter_message(response="utter_quest_not_completed")
             return []
 
 class ActionCastSpell(Action):
@@ -771,18 +773,18 @@ class ActionCastSpell(Action):
         spell = tracker.get_slot("spell")
         known_spells = tracker.get_slot("known_spells") or []
         
-        if not spell:  # No spell entity provided
+        if not spell:
             if known_spells:
                 buttons = []
                 for spell_name in known_spells:
                     buttons.append({"title": spell_name, "payload": f'/cast_spell{{"spell":"{spell_name}"}}'})
-                dispatcher.utter_message(text="Which spell would you like to cast?", buttons=buttons)
+                dispatcher.utter_message(response="utter_cast_which", buttons=buttons)
             else:
-                dispatcher.utter_message(text="You don't know any spells yet.")
+                dispatcher.utter_message(response="utter_no_spells")
             return []
         
         if spell not in known_spells:
-            dispatcher.utter_message(text=f"You don't know the {spell} spell.")
+            dispatcher.utter_message(response="utter_no_such_spell" spell=spell)
             return [SlotSet("spell", None)]
         
         if spell == "fireball":
@@ -791,14 +793,14 @@ class ActionCastSpell(Action):
                 enemy_info = enemies[enemy]
                 damage = 20
                 enemy_info["HP"] -= damage
-                dispatcher.utter_message(text=f"You cast Fireball! The {enemy} takes {damage} damage.")
+                dispatcher.utter_message(response="utter_cast_fireball" enemy=enemy damage=damage)
                 if enemy_info["HP"] <= 0:
-                    dispatcher.utter_message(text=f"You defeated the {enemy}!")
+                    dispatcher.utter_message(response="utter_enemy_dies" enemy=enemy)
                     return [SlotSet("in_combat", False), SlotSet("spell", None)]
                 else:
                     return [FollowupAction("action_attack"), SlotSet("spell", None)]
             else:
-                dispatcher.utter_message(text="You cast Fireball, but there are no enemies around. The spell fizzles out.")
+                dispatcher.utter_message(response="utter_miss_fireball")
         
         return [SlotSet("spell", None)]
 
@@ -809,13 +811,13 @@ class ActionCraft(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         game_state = tracker.get_slot("game_state")
         if game_state != "exploring":
-            dispatcher.utter_message(text="You can't craft right now.")
+            dispatcher.utter_message(response="utter_cannot_craft")
             return []
 
         crafting_materials = tracker.get_slot("crafting_materials") or []
         
         if len(crafting_materials) < 3:
-            dispatcher.utter_message(text="You don't have enough materials to craft anything.")
+            dispatcher.utter_message(response="utter_not_enough_crafting_materials")
             return []
 
         crafting_materials = crafting_materials[:3]
@@ -825,7 +827,7 @@ class ActionCraft(Action):
         for material in crafting_materials:
             crafting_materials.remove(material)
 
-        dispatcher.utter_message(text="You crafted a potion!")
+        dispatcher.utter_message(response="utter_crafted_potion")
         return [SlotSet("inventory", inventory), SlotSet("crafting_materials", crafting_materials)]
 
 class ActionFish(Action):
@@ -839,12 +841,12 @@ class ActionFish(Action):
                 fish = random.choice(["trout", "salmon", "catfish"])
                 inventory = tracker.get_slot("inventory") or []
                 inventory.append(fish)
-                dispatcher.utter_message(text=f"You caught a {fish}!")
+                dispatcher.utter_message(response="utter_fish_success" fish=fish)
                 return [SlotSet("inventory", inventory)]
             else:
-                dispatcher.utter_message(text="You didn't catch anything this time.")
+                dispatcher.utter_message(response="utter_fish_fail")
         else:
-            dispatcher.utter_message(text="There's no water here to fish in.")
+            dispatcher.utter_message(response="utter_cannot_fish")
         return []
 
 class ActionMine(Action):
@@ -858,12 +860,12 @@ class ActionMine(Action):
                 ore = random.choice(["iron", "gold", "diamond"])
                 inventory = tracker.get_slot("inventory") or []
                 inventory.append(ore)
-                dispatcher.utter_message(text=f"You mined some {ore}!")
+                dispatcher.utter_message(response="utter_mine_success" ore=ore)
                 return [SlotSet("inventory", inventory)]
             else:
-                dispatcher.utter_message(text="You didn't find any valuable ores this time.")
+                dispatcher.utter_message(response="utter_mine_fail")
         else:
-            dispatcher.utter_message(text="There's nothing to mine here.")
+            dispatcher.utter_message(response="utter_cannot_mine")
         return []
 #
 class ActionRest(Action):
@@ -873,17 +875,17 @@ class ActionRest(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         game_state = tracker.get_slot("game_state")
         if game_state == "in_combat":
-            dispatcher.utter_message(text="You can't rest while in combat!")
+            dispatcher.utter_message(response="utter_cannot_rest_in_combat")
             return []
         max_hp = tracker.get_slot("max_hp") or 0
         current_room = tracker.get_slot("current_room")
         
         if current_room == "tavern":
-            dispatcher.utter_message(text="You take a comfortable nap in the tavern and fully restore your health.")
+            dispatcher.utter_message(response="utter_rest_in_tavern")
             return [SlotSet("hp", max_hp), FollowupAction("action_pass_time")]
         else:
             heal_amount = min(max_hp - tracker.get_slot("hp"), 20)
-            dispatcher.utter_message(text=f"You rest for a while and recover {heal_amount} HP.")
+            dispatcher.utter_message(response="utter_rest" hp=heal_amount)
             return [SlotSet("hp", min(max_hp, (tracker.get_slot("hp") or 0) + heal_amount)), FollowupAction("action_pass_time")]
 #
 class ActionPassTime(Action):
@@ -896,12 +898,12 @@ class ActionPassTime(Action):
         current_index = time_sequence.index(current_time)
         new_time = time_sequence[(current_index + 1) % 4]
 
-        dispatcher.utter_message(text=f"Time passes. It is now {new_time}.")
+        dispatcher.utter_message(response="utter_pass_time", time=new_time)
 
         if new_time == "night":
-            dispatcher.utter_message(text="The world feels different at night...")
+            dispatcher.utter_message(response="utter_night_dawns")
         elif new_time == "morning":
-            dispatcher.utter_message(text="A new day begins, bringing new opportunities.")
+            dispatcher.utter_message(response="utter_new_day")
 
         return [SlotSet("game_time", new_time)]
 #
@@ -912,7 +914,7 @@ class ActionCheckGameOver(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         hp = tracker.get_slot("hp")
         if hp <= 0:
-            dispatcher.utter_message(text="Game Over! Your health has reached zero.")
+            dispatcher.utter_message(response="utter_game_over")
             return [SlotSet("game_state", "game_over")]
         return []
 #

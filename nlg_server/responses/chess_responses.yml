@@ -1,11 +1,7 @@
-utter_greet:
-  - "Hello, {name}! Welcome to our service."
-  - "Hi, {name}! Glad to see you here."
-  - "Hey, {name}! How can I assist you today?"
+utter_greet_chess:
+  - "Hello, {name}! Welcome!."
 utter_goodbye:
   - "Goodbye, {name}! Have a great day."
-  - "See you later, {name}!"
-  - "Take care, {name}! Until next time."
 utter_thank_you:
   - "Thank you, {name}, for your help!"
   - "I appreciate your assistance, {name}."

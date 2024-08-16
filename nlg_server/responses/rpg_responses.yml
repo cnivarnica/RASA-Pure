@@ -1,32 +1,198 @@
-  utter_greet:
-    - "Welcome to RPG Quest! Type 'help' if you need assistance."
+  utter_greet_rpg:
+    - "Welcome to RPG Quest! You find yourself in the village square. Type 'look' to see what's around you. Type 'help' if you need assistance."
 
   utter_goodbye:
     - "Thanks for playing RPG Quest! Come back soon."
 
-  utter_help:
-    - "Here are some commands you can use:\n- move [direction]\n- look\n- get [item]\n- use [item]\n- inventory\n- character info\n- nap\n- shop\n- buy [item]\n- attack [enemy]\n- run away\n- level up\n- quest info\n- talk to [npc]"
-
   utter_invalid_move:
     - "You can't move in that direction."
 
-  utter_no_item:
-    - "That item is not here."
+  utter_cannot_move:
+    - "You can't move right now"
+
+  utter_lost:
+    - "You seem to be lost. Returning to the village square."
+
+  utter_which_direction:
+    - "Which direction would you like to move?"
+
+  utter_no_exit:
+    - "There's no exit"
+
+  utter_cannot_explore:
+    - "You can't explore right now."
+
+  utter_explore_enemy:
+    - "You encounter an {enemy}!"
+
+  utter_explore_item:
+    - "You found a {item}!"
+
+  utter_explore_material:
+    - "You found a {material}!"
+
+  utter_status_info:
+    - text: |
+        Character Info:
+        Game state: {game_state}
+        Level: {level}
+        HP: {hp}/{max_hp}
+        Money: {gp}
+        XP: {xp}
+        STR: {str_stat}
+        CON: {con_stat}
+        SPD: {spd_stat}
+        ATK: {atk_stat}
+        Progress to next level: {progress_to_next_level}%
+
+  utter_help:
+    - "Here are some commands you can use"
+
+  utter_cannot_get_item:
+    - "You can't pick up items up right now."
+
+  utter_get_which_item:
+    - "Which item would you like to pick up?"
+
+  utter_no_items_to_get:
+    - "There's no item here."
+
+  utter_item_got:
+    - "You picked up the {item}. {description}"
+
+  utter_no_item_to_get:
+    - "There's no {item} here."
+
+  utter_cannot_use_items:
+    - "You can't use items right now."
+
+  utter_cannot_use_item:
+    - "You can't use {item} right now.":
 
   utter_item_not_in_inventory:
-    - "You don't have that item in your inventory."
+    - "You don't have {item} in your inventory."
 
-  utter_no_enemy:
-    - "There's no enemy to attack here."
+  utter_use_which_item:
+    - "Which item would you like to use?"
 
-  utter_not_in_combat:
-    - "You're not in combat right now."
+  utter_no_items_to_use:
+    - "You don't have any items to use."
 
-  utter_level_up_success:
-    - "Congratulations! You've leveled up to level {level}. Choose a stat to increase: STR, CON, SPD, or ATK."
+  utter_cannot_shop: 
+    - "You can't shop right now."
 
-  utter_level_up_fail:
-    - "You don't have enough XP to level up yet."
+  utter_no_shop:
+    - "There's no shop here."
+
+  utter_not_in_shop:
+    - "You're not in a shop."
+
+  utter_what_to_buy:
+    - "What would you like to buy?"
+
+  utter_nothing_to_buy:
+    - "There's nothing to buy here."
+
+  utter_shop_buy_success:
+    - "You bought {item} for {cost} gold pieces."
+
+  utter_not_enough_money:
+    - "You don't have enough gold pieces to buy {item}. It costs {cost}, you have {gp}"
+
+  utter_shop_item_not_found:
+    - "You couldn't find {item} in the shop."
+
+  utter_cannot_trade:
+    - "You can't trade right now."
+
+  utter_no_trade:
+    - "There's no one to trade with here."
+
+  utter_no_items_to_trade:
+    - "You don't have any items to trade."
+
+  utter_not_in_trade:
+    - "You're not in a trade."
+
+  utter_trade_which_item:
+    - "Which item would you like to trade?"
+
+  utter_trade_item_not_found:
+    - "You couldn't find {item} in your inventory."
+
+  utter_attack_which_enemy:
+    - "Which enemy would you like to attack?"
+
+  utter_no_enemies:
+    - "There are no enemies here."
+
+  utter_start_combat:
+    - "You engage in combat with {enemy}!"
+
+  utter_enemy_dies:
+    - "The {enemy} dies."
+    - "The {enemy} is defeated."
+    - "You defeated the {enemy}."
+
+  utter_no_such_enemy:
+    - "There's no {enemy} here."
+
+  utter_run_success:
+    - "You ran away from the {enemy}."
+
+  utter_run_fail:
+    - "You couldn't escape from the {enemy}."
+
+  utter_enough_xp:
+    - "You have enough XP to level up!"
+
+  utter_xp_to_next_level:
+    - "You need {xp_to_next_level} more XP to level up."
+
+  utter_not_leveling_up:
+    - "You're not leveling up right now."
+
+  utter_level_up:
+    - "You leveled up! You are now level {level}."
+
+  utter_choose_stat:
+    - "Which stat would you like to increase? (str, con, spd, or atk)"
+
+  utter_invalid_stat:
+    - "{stat} not a valid stat. Please choose one of (str, con, spd, or atk)"
+
+  utter_stat_increased:
+    - "Your {stat} has increased to {value}."
+
+  utter_talk_to_who:
+    - "Who would you like to talk to?"
+
+  utter_no_npcs:
+    - "There's no one here to talk to."
+
+  utter_talk_to_npc:
+    - "{npc_dialogue}"
+
+  utter_no_such_npc:
+    - "There's no {npc} here."
+
+  utter_npc_gives_quest:
+    - "{npc} has a quest for you: {quest}"
+
+  utter_no_done_quests:
+    - "You don't have any quests for completion."
+
+  utter_completed_wolf_pelt_quest:
+    - "You completed the wolf pelt quest! You gained 100 xp and 50 gp"
+
+  utter_completed_old_man_amulet_quest:
+    - "You've returned the lost amulet! You gain 150 XP and learn a new spell: Fireball!"
+
+  utter_completed_ghost_dog_quest:
+    - "You've defeated the ghost dog! The innkeeper rewards you with 200 XP and 100 GP."
+
+  utter_quest_not_completed:
+    - You haven't completed the requirements for your current quest yet.
 
   utter_quest_info:
     - "Your current quest is: {current_quest}"
@@ -34,26 +200,79 @@
   utter_no_quest:
     - "You don't have any active quests at the moment."
 
-  utter_talk_to_npc:
-    - "{npc_dialogue}"
+  utter_cast_which:
+    - "Which spell would you like to cast?"
 
-  utter_cannot_move_in_combat:
-    - "You can't move while in combat!"
+  utter_no_spells:
+    - "You don't have any spells to cast."
 
-  utter_cannot_shop_in_combat:
-   - "You can't shop while in combat!"
+  utter_no_such_spell:
+    - "You don't know {spell}."
 
-  utter_default:
-   - "I'm sorry, I didn't understand that."
+  utter_cast_fireball:
+    - "You cast fireball at {enemy} and deal {damage} damage."
 
-  utter_no_shop_here:
-    - "There's no shop here. Try going to the village square, blacksmith, or tavern."
+  utter_miss_fireball:
+    - "You cast Fireball, but there are no enemies around. The spell fizzles out."
+
+  utter_cannot_craft:
+    - "You can't craft right now."
+
+  utter_not_enough_crafting_materials:
+    - "You don't have enough materials to craft anything."
+
+  utter_crafted_potion:
+    - "You crafted a potion!"
 
   utter_cannot_fish:
-    - "There's no water here to fish in."
+    - "You can't fish right now."
+    - "You can't fish here."
+    - "There in no spot for fishing"
+
+  utter_fish_fail:
+    - "You failed to catch anything."
+
+  utter_fish_success:
+    - "You caught a {fish}!"
+
+  utter_mine_fail:
+    - "You didn't find any valuable ores this time."
+
+  utter_mine_success:
+    - "You mined {ore}!"
 
   utter_cannot_mine:
     - "There's nothing to mine here."
 
+  utter_cannot_rest_in_combat:
+    - "You can't rest while in combat."
+
+  utter_rest_in_tavern:
+    - "You sleep well in the tavern and recover fully recover your hit points."
+    - "You rest at the tavern and recover your hit points."
+
+  utter_rest:
+    - "You rest for a bit and heal {hp} hit points."
+    - "You rest and recover {hp} hit points."
+    - "You take a quick nap and recover {hp} hit points."
+
+  utter_new_day:
+    - "A new day has dawned. You feel refreshed and ready for a new adventure."
+    - "A new day has arrived. You wake up refreshed and ready for a new adventure."
+    - "A new day begins, bringing new opportunities."
+
+  utter_night_dawns:
+    - "The night dawns and the world goes dark."
+    - "The night falls, and the world is in darkness."
+
+  utter_pass_time:
+    - "Time passes. It is now {time}"
+
   utter_game_over:
-    - "Game Over! You were killed by {enemy_name}."
+    - "Game Over! You were killed."
+
+  utter_action_error:
+    - "You can't do that right now."
+
+  utter_default:
+    - "I'm sorry, I didn't understand that."

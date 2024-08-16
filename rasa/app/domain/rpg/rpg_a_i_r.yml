@@ -83,7 +83,31 @@ responses:
   utter_invalid_move:
     - text: ""
 
-  utter_no_item:
+  utter_cannot_move:
+    - text: ""
+
+  utter_lost:
+    - text: ""
+
+  utter_which_direction:
+    - text: ""
+
+  utter_no_exit:
+    - text: ""
+
+  utter_cannot_explore:
+    - text: ""
+
+  utter_explore_enemy:
+    - text: ""
+
+  utter_explore_item:
+    - text: ""
+
+  utter_explore_material:
+    - text: ""
+
+  utter_status_info:
     - text: ""
 
   utter_item_not_in_inventory:
@@ -130,6 +154,10 @@ responses:
 
   utter_game_over:
     - text: ""
+
+  utter_action_error:
+    - text: ""
+
 
 # =======================
 # Session Configuration
