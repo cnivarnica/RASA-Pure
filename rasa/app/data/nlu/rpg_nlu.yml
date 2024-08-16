@@ -1,0 +1,295 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - hello
+      - hi
+      - hey
+      - greetings
+      - good morning
+      - good evening
+
+  - intent: goodbye
+    examples: |
+      - bye
+      - goodbye
+      - see you later
+      - farewell
+      - quit game
+      - exit
+
+  - intent: move
+    examples: |
+      - go [north](direction)
+      - move [south](direction)
+      - walk [east](direction)
+      - run [west](direction)
+      - travel [north](direction)
+      - head [south](direction)
+      - [north](direction)
+      - [south](direction)
+      - [east](direction)
+      - [west](direction)
+      - [down](direction)
+      - [up](direction)
+      - go
+      - move
+
+  - intent: look
+    examples: |
+      - look around
+      - examine the room
+      - what's here
+      - describe the surroundings
+      - check the area
+      - survey the scene
+      - look
+
+  - intent: get_item
+    examples: |
+      - get [potion](item)
+      - pick up [sword](item)
+      - take [armor](item)
+      - grab [key](item)
+      - collect [gold](item)
+      - acquire [map](item)
+      - get
+
+  - intent: use_item
+    examples: |
+      - use [potion](item)
+      - equip [sword](item)
+      - wear [armor](item)
+      - drink [elixir](item)
+      - read [scroll](item)
+      - activate [amulet](item)
+      - use
+
+  - intent: inventory
+    examples: |
+      - check my inventory
+      - what do I have
+      - show my items
+      - list my possessions
+      - view my backpack
+      - display my inventory
+      - inventory
+
+  - intent: status
+    examples: |
+      - check my stats
+      - show my character sheet
+      - what are my abilities
+      - display my attributes
+      - view my skills
+      - character status
+      - status
+      - stat
+
+  - intent: rest
+    examples: |
+      - rest here
+      - take a break
+      - recover my health
+      - rest for a while
+      - recharge
+      - regain energy
+      - rest
+      - take a nap
+      - sleep
+      - catch some sleep
+      - snooze
+      - doze off
+      - quick nap
+      - nap
+      - have a short nap
+      - get some shuteye
+      - take a power nap
+      - catch some z's
+      - brief slumber
+      - sit and rest
+      - pause to recover
+      - stop to rest
+      - recuperate here
+
+  - intent: shop
+    examples: |
+      - open the shop
+      - buy items
+      - show me what's for sale
+      - visit the merchant
+      - browse the wares
+      - check the store inventory
+      - shop
+
+  - intent: buy_item
+    examples: |
+      - buy [potion](item)
+      - purchase [sword](item)
+      - acquire [armor](item)
+      - get [scroll](item) from the shop
+      - obtain [amulet](item) from the merchant
+      - buy
+
+  - intent: trade
+    examples: |
+      - trade
+      - start trading
+      - I want to trade
+
+  - intent: execute_trade
+    examples: |
+      - trade [wolf_pelt](trade_item)
+      - sell [magic_crystal](trade_item)
+      - exchange [ghost_essence](trade_item)
+      - sell
+
+  - intent: attack
+    examples: |
+      - attack [ghost dog](enemy)
+      - fight [mean bird](enemy)
+      - hit [human](enemy)
+      - strike [wolf](enemy)
+      - battle [dragon](enemy)
+      - confront [bandit](enemy)
+      - attack
+
+  - intent: run_away
+    examples: |
+      - run away
+      - escape
+      - flee
+      - retreat
+      - get out of here
+      - avoid combat
+
+  - intent: increase_stat
+    examples: |
+      - increase [str](stat)
+      - increase stat [str](stat)
+      - improve [con](stat)
+      - boost [spd](stat)
+      - enhance [atk](stat)
+      - upgrade [str](stat)
+      - level up [con](stat)
+      - [spd](stat)
+      - [atk](stat)
+      - [con](stat)
+      - [str](stat)
+
+  - intent: help
+    examples: |
+      - help
+      - what can I do
+      - show commands
+      - assistance please
+      - how to play
+      - game instructions
+
+  - intent: quest_info
+    examples: |
+      - quest info
+      - current mission
+      - active quest
+      - show objectives
+      - what's my task
+      - quest status
+      - mission details
+      - quest progress
+      - quest
+
+  - intent: talk_to_npc
+    examples: |
+      - talk with [merchant](npc)
+      - speak with [old man](npc)
+      - chat with [guard](npc)
+      - interact with [wizard](npc)
+      - converse with [innkeeper](npc)
+      - discuss with [blacksmith](npc)
+      - ask [farmer](npc) about
+      - inquire from [sage](npc)
+      - negotiate with [trader](npc)
+      - have a conversation with [villager](npc)
+      - talk
+
+  - intent: complete_quest
+    examples: |
+      - complete quest
+      - finish quest
+      - turn in quest
+      - complete mission
+  
+  - intent: cast_spell
+    examples: |
+      - cast [fireball](spell)
+      - use magic [fireball](spell)
+      - cast the spell [fireball](spell)
+      - cast
+
+  - intent: pass_time
+    examples: |
+      - wait
+      - pass time
+      - do nothing
+
+  - intent: start_rpg_game
+    examples: |
+      - start rpg game
+      - begin rpg quest
+      - play rpg quest
+      - launch the rpg
+      - rpg
+
+  - intent: restart_game
+    examples: |
+      - restart the game
+      - start over
+      - reset the game
+      - new game
+      - begin again
+      - restart
+
+  - intent: nlu_fallback
+    examples: |
+      - understand
+      - confused
+      - lost
+      - stuck
+
+  - intent: craft
+    examples: |
+      - craft an item
+      - make something
+      - create a potion
+      - craft using materials
+      - combine items
+      - craft
+
+  - intent: explore
+    examples: |
+      - explore the area
+      - search for items
+      - look for enemies
+      - investigate the surroundings
+      - scout the location
+      - explore
+
+  - intent: fish
+    examples: |
+      - go fishing
+      - cast a line
+      - try to catch a fish
+      - fish in the river
+      - do some fishing
+      - fish
+
+  - intent: mine
+    examples: |
+      - start mining
+      - mine for ore
+      - dig for minerals
+      - extract some rocks
+      - do some mining
+      - mine
+      - dig

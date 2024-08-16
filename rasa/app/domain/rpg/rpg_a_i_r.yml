@@ -1,0 +1,139 @@
+version: "3.1"
+
+# =======================
+# Actions
+# =======================
+actions:
+  - action_move
+  - action_look
+  - action_get_item
+  - action_use_item
+  - action_inventory
+  - action_status
+  - action_rest
+  - action_shop
+  - action_buy_item
+  - action_attack
+  - action_run_away
+  - action_level_up
+  - action_increase_stat
+  - action_check_game_over
+  - action_quest_info
+  - action_talk_to_npc
+  - action_complete_quest
+  - action_cast_spell
+  - action_explore
+  - action_pass_time
+  - action_start_game
+  - action_check_level_up
+  - action_help
+  - action_fish
+  - action_mine
+  - action_craft
+  - action_execute_trade
+  - action_trade
+
+# =======================
+# Intents
+# =======================
+intents:
+  - greet
+  - goodbye
+  - move
+  - look
+  - get_item
+  - use_item
+  - inventory
+  - status
+  - shop
+  - buy_item
+  - attack
+  - run_away
+  - increase_stat
+  - help
+  - quest_info
+  - talk_to_npc
+  - complete_quest
+  - cast_spell
+  - explore
+  - pass_time
+  - start_rpg_game
+  - restart_game
+  - nlu_fallback
+  - trade
+  - execute_trade
+  - craft
+  - rest
+  - fish
+  - mine
+
+# =======================
+# Responses
+# =======================
+responses:
+  utter_greet:
+    - text: ""
+
+  utter_goodbye:
+    - text: ""
+
+  utter_help:
+    - text: ""
+
+  utter_invalid_move:
+    - text: ""
+
+  utter_no_item:
+    - text: ""
+
+  utter_item_not_in_inventory:
+    - text: ""
+
+  utter_no_enemy:
+    - text: ""
+
+  utter_not_in_combat:
+    - text: ""
+
+  utter_level_up_success:
+    - text: ""
+
+  utter_level_up_fail:
+    - text: ""
+
+  utter_quest_info:
+    - text: ""
+
+  utter_no_quest:
+    - text: ""
+
+  utter_talk_to_npc:
+    - text: ""
+
+  utter_cannot_move_in_combat:
+    - text: ""
+
+  utter_cannot_shop_in_combat:
+    - text: ""
+
+  utter_default:
+    - text: ""
+
+  utter_no_shop_here:
+    - text: ""
+
+  utter_cannot_fish:
+    - text: ""
+
+  utter_cannot_mine:
+    - text: ""
+
+  utter_game_over:
+    - text: ""
+
+# =======================
+# Session Configuration
+# =======================
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

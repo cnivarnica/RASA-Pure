@@ -1,0 +1,122 @@
+version: "3.1"
+
+stories:
+
+- story: Start the game
+  steps:
+  - intent: start_rpg_game
+  - action: action_start_game
+
+- story: Restart the game
+  steps:
+  - intent: restart_rpg_game
+  - action: action_start_game
+
+- story: Move around
+  steps:
+  - intent: move
+  - action: action_move
+
+- story: Look around
+  steps:
+  - intent: look
+  - action: action_look
+
+- story: Get item
+  steps:
+  - intent: get_item
+  - action: action_get_item
+
+- story: Use item
+  steps:
+  - intent: use_item
+  - action: action_use_item
+
+- story: Check inventory
+  steps:
+  - intent: inventory
+  - action: action_inventory
+
+- story: Enter combat
+  steps:
+  - intent: attack
+  - action: action_attack
+
+- story: Continue combat
+  steps:
+  - slot_was_set:
+    - game_state: "in_combat"
+  - intent: attack
+  - action: action_attack
+
+- story: Run away from combat
+  steps:
+  - slot_was_set:
+    - game_state: "in_combat"
+  - intent: run_away
+  - action: action_run_away
+
+- story: Shop
+  steps:
+  - intent: shop
+  - action: action_shop
+
+- story: Buy
+  steps:
+  - slot_was_set:
+    - game_state: "shopping"
+  - intent: buy_item
+  - action: action_buy_item
+
+- story: Talk to NPC
+  steps:
+  - intent: talk_to_npc
+  - action: action_talk_to_npc
+
+- story: Complete quest
+  steps:
+  - intent: complete_quest
+  - action: action_complete_quest
+  - action: action_check_level_up
+
+- story: Rest
+  steps:
+  - intent: rest
+  - action: action_rest
+
+- story: Explore
+  steps:
+  - intent: explore
+  - action: action_explore
+
+- story: Cast spell
+  steps:
+  - intent: cast_spell
+  - action: action_cast_spell
+
+- story: Pass time
+  steps:
+  - intent: pass_time
+  - action: action_pass_time
+
+- story: Trade
+  steps:
+  - intent: trade
+  - action: action_trade
+  - intent: execute_trade
+  - action: action_execute_trade
+
+- story: Craft
+  steps:
+  - intent: craft
+  - action: action_craft
+
+- story: Fish
+  steps:
+  - intent: fish
+  - action: action_fish
+
+- story: Mine
+  steps:
+  - intent: mine
+  - action: action_mine

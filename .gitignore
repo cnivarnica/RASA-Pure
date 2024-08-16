@@ -1,0 +1,7 @@
+rasa/app/story_graph.dot
+rasa/app/models
+rasa/app/.rasa
+rasa/app/results
+rasa/app/tests
+.vscode
+**/__pycache__

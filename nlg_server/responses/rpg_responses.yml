@@ -1,0 +1,59 @@
+  utter_greet:
+    - "Welcome to RPG Quest! Type 'help' if you need assistance."
+
+  utter_goodbye:
+    - "Thanks for playing RPG Quest! Come back soon."
+
+  utter_help:
+    - "Here are some commands you can use:\n- move [direction]\n- look\n- get [item]\n- use [item]\n- inventory\n- character info\n- nap\n- shop\n- buy [item]\n- attack [enemy]\n- run away\n- level up\n- quest info\n- talk to [npc]"
+
+  utter_invalid_move:
+    - "You can't move in that direction."
+
+  utter_no_item:
+    - "That item is not here."
+
+  utter_item_not_in_inventory:
+    - "You don't have that item in your inventory."
+
+  utter_no_enemy:
+    - "There's no enemy to attack here."
+
+  utter_not_in_combat:
+    - "You're not in combat right now."
+
+  utter_level_up_success:
+    - "Congratulations! You've leveled up to level {level}. Choose a stat to increase: STR, CON, SPD, or ATK."
+
+  utter_level_up_fail:
+    - "You don't have enough XP to level up yet."
+
+  utter_quest_info:
+    - "Your current quest is: {current_quest}"
+
+  utter_no_quest:
+    - "You don't have any active quests at the moment."
+
+  utter_talk_to_npc:
+    - "{npc_dialogue}"
+
+  utter_cannot_move_in_combat:
+    - "You can't move while in combat!"
+
+  utter_cannot_shop_in_combat:
+   - "You can't shop while in combat!"
+
+  utter_default:
+   - "I'm sorry, I didn't understand that."
+
+  utter_no_shop_here:
+    - "There's no shop here. Try going to the village square, blacksmith, or tavern."
+
+  utter_cannot_fish:
+    - "There's no water here to fish in."
+
+  utter_cannot_mine:
+    - "There's nothing to mine here."
+
+  utter_game_over:
+    - "Game Over! You were killed by {enemy_name}."

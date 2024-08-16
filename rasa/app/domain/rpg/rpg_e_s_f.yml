@@ -1,0 +1,219 @@
+version: "3.1"
+
+# =======================
+# Entities
+# =======================
+entities:
+  - direction
+  - item
+  - enemy
+  - stat
+  - trade_item
+  - crafting_material
+  - spell
+  - npc
+  - ore
+  - fish
+
+# =======================
+# Slots
+# =======================
+slots:
+  game_state:
+    type: categorical
+    values:
+      - exploring
+      - in_combat
+      - shopping
+      - crafting
+      - trading
+      - leveling_up
+      - game_over
+      - in_combat
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  direction:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: direction
+
+  item:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: item
+
+  enemy:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: enemy
+
+  enemy_hp:
+    type: float
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  stat:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: stat
+
+  player_coords:
+    type: list
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  floor:
+    type: float
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  hp:
+    type: float
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  max_hp:
+    type: float
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  inventory:
+    type: list
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  current_room:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  gp:
+    type: float
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  xp:
+    type: float
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  level:
+    type: float
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  str:
+    type: float
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  con:
+    type: float
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  spd:
+    type: float
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  atk:
+    type: float
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  current_quest:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  known_spells:
+    type: list
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  crafting_materials:
+    type: list
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  trade_item:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: item
+
+  game_time:
+    type: categorical
+    values:
+      - morning
+      - afternoon
+      - evening
+      - night
+    influence_conversation: false
+    mappings:
+    - type: custom
+
+  npc:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: npc
+
+  spell:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: spell
+
+  ore:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: ore
+
+  fish:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: fish
+
+# =======================
+# Forms
+# =======================
+# forms:
+#   move_form:
+#     required_slots:
+#       - direction
