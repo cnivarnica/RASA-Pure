@@ -1,7 +1,7 @@
   utter_greet_rpg:
     - "Welcome to RPG Quest! You find yourself in the village square. Type 'look' to see what's around you. Type 'help' if you need assistance."
 
-  utter_goodbye:
+  utter_goodbye_rpg:
     - "Thanks for playing RPG Quest! Come back soon."
 
   utter_invalid_move:

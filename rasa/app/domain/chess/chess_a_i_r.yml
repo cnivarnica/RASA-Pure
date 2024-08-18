@@ -19,12 +19,10 @@ actions:
 intents:
   - make_chess_move
   - start_new_chess_game
-  - affirm
-  - deny
 
 # =======================
 # Responses
 # =======================
 responses:
   utter_ask_for_move:
-    - text: "Please enter your chess move in UCI format (e.g., Move e2e4)."
+    - text: ""

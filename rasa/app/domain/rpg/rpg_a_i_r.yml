@@ -37,8 +37,6 @@ actions:
 # Intents
 # =======================
 intents:
-  - greet
-  - goodbye
   - move
   - look
   - get_item
@@ -71,13 +69,10 @@ intents:
 # Responses
 # =======================
 responses:
-  utter_greet:
+  utter_greet_rpg:
     - text: ""
 
-  utter_goodbye:
-    - text: ""
-
-  utter_help:
+  utter_goodbye_rpg:
     - text: ""
 
   utter_invalid_move:
@@ -110,19 +105,151 @@ responses:
   utter_status_info:
     - text: ""
 
+  utter_help:
+    - text: ""
+
+  utter_cannot_get_item:
+    - text: ""
+
+  utter_get_which_item:
+    - text: ""
+
+  utter_no_items_to_get:
+    - text: ""
+
+  utter_item_got:
+    - text: ""
+
+  utter_no_item_to_get:
+    - text: ""
+
+  utter_cannot_use_items:
+    - text: ""
+
+  utter_cannot_use_item:
+    - text: ""
+
   utter_item_not_in_inventory:
     - text: ""
 
-  utter_no_enemy:
+  utter_use_which_item:
     - text: ""
 
-  utter_not_in_combat:
+  utter_no_items_to_use:
     - text: ""
 
-  utter_level_up_success:
+  utter_cannot_shop: 
     - text: ""
 
-  utter_level_up_fail:
+  utter_no_shop:
+    - text: ""
+
+  utter_not_in_shop:
+    - text: ""
+
+  utter_what_to_buy:
+    - text: ""
+
+  utter_nothing_to_buy:
+    - text: ""
+
+  utter_shop_buy_success:
+    - text: ""
+
+  utter_not_enough_money:
+    - text: ""
+
+  utter_shop_item_not_found:
+    - text: ""
+
+  utter_cannot_trade:
+    - text: ""
+
+  utter_no_trade:
+    - text: ""
+
+  utter_no_items_to_trade:
+    - text: ""
+
+  utter_not_in_trade:
+    - text: ""
+
+  utter_trade_which_item:
+    - text: ""
+
+  utter_trade_item_not_found:
+    - text: ""
+
+  utter_attack_which_enemy:
+    - text: ""
+
+  utter_no_enemies:
+    - text: ""
+
+  utter_start_combat:
+    - text: ""
+
+  utter_enemy_dies:
+    - text: ""
+
+  utter_no_such_enemy:
+    - text: ""
+
+  utter_run_success:
+    - text: ""
+
+  utter_run_fail:
+    - text: ""
+
+  utter_enough_xp:
+    - text: ""
+
+  utter_xp_to_next_level:
+    - text: ""
+
+  utter_not_leveling_up:
+    - text: ""
+
+  utter_level_up:
+    - text: ""
+
+  utter_choose_stat:
+    - text: ""
+
+  utter_invalid_stat:
+    - text: ""
+
+  utter_stat_increased:
+    - text: ""
+
+  utter_talk_to_who:
+    - text: ""
+
+  utter_no_npcs:
+    - text: ""
+
+  utter_talk_to_npc:
+    - text: ""
+
+  utter_no_such_npc:
+    - text: ""
+
+  utter_npc_gives_quest:
+    - text: ""
+
+  utter_no_done_quests:
+    - text: ""
+
+  utter_completed_wolf_pelt_quest:
+    - text: ""
+
+  utter_completed_old_man_amulet_quest:
+    - text: ""
+
+  utter_completed_ghost_dog_quest:
+    - text: ""
+
+  utter_quest_not_completed:
     - text: ""
 
   utter_quest_info:
@@ -131,25 +258,64 @@ responses:
   utter_no_quest:
     - text: ""
 
-  utter_talk_to_npc:
+  utter_cast_which:
     - text: ""
 
-  utter_cannot_move_in_combat:
+  utter_no_spells:
     - text: ""
 
-  utter_cannot_shop_in_combat:
+  utter_no_such_spell:
     - text: ""
 
-  utter_default:
+  utter_cast_fireball:
     - text: ""
 
-  utter_no_shop_here:
+  utter_miss_fireball:
+    - text: ""
+
+  utter_cannot_craft:
+    - text: ""
+
+  utter_not_enough_crafting_materials:
+    - text: ""
+
+  utter_crafted_potion:
     - text: ""
 
   utter_cannot_fish:
     - text: ""
 
+  utter_fish_fail:
+    - text: ""
+
+  utter_fish_success:
+    - text: ""
+
+  utter_mine_fail:
+    - text: ""
+
+  utter_mine_success:
+    - text: ""
+
   utter_cannot_mine:
+    - text: ""
+
+  utter_cannot_rest_in_combat:
+    - text: ""
+
+  utter_rest_in_tavern:
+    - text: ""
+
+  utter_rest:
+    - text: ""
+
+  utter_new_day:
+    - text: ""
+
+  utter_night_dawns:
+    - text: ""
+
+  utter_pass_time:
     - text: ""
 
   utter_game_over:
@@ -157,6 +323,10 @@ responses:
 
   utter_action_error:
     - text: ""
+
+  utter_default:
+    - text: ""
+
 
 
 # =======================

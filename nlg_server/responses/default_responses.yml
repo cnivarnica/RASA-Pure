@@ -1,0 +1,39 @@
+utter_greet:
+  - Hello
+  - Hi
+  - Hey
+  - Howdy
+  - What's up
+
+utter_goodbye:
+  - Bye
+  - Goodbye
+  - See you later
+  - Take care
+
+utter_thank_you:
+  - Thanks
+  - Thank you
+  - Thanks a lot
+  - Thanks a ton
+
+utter_sorry:
+  - Sorry
+  - My apologies
+  - I apologize
+  - I'm sorry
+
+utter_uses:
+  - I can play chess and Stroy RPG
+
+utter_you_are_welcome:
+  - You are welcome
+  - No problem
+  - My pleasure
+  - It's my pleasure
+
+utter_no_problem:
+  - No problem
+  - No worries
+  - It's okay
+  - It's fine

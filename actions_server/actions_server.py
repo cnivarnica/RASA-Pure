@@ -49,7 +49,7 @@ actions = import_all_actions()
 async def webhook(request):
     try:
         body = request.json
-        logger.info(f'Received request for action: {body.get("next_action")}')
+        # logger.info(f'Received request for action: {body.get("next_action")}')
 
         action_name = body.get("next_action")
         if action_name in actions:

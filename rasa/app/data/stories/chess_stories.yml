@@ -9,18 +9,10 @@ stories:
   - story: Make chess move
     steps:
       - intent: make_chess_move
+        entities:
+          - chess_move
       - action: action_chess_move
       - action: action_check_game_over
-
-  - story: Continue game
-    steps:
-      - action: action_handle_game_state
-      - action: action_ask_for_move
-
-  - story: End game
-    steps:
-      - action: action_handle_game_state
-      - action: action_end_game
 
   - story: Start new game after end
     steps:

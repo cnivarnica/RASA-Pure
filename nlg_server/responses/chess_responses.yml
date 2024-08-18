@@ -1,12 +1,32 @@
-utter_greet_chess:
-  - "Hello, {name}! Welcome!."
-utter_goodbye:
-  - "Goodbye, {name}! Have a great day."
-utter_thank_you:
-  - "Thank you, {name}, for your help!"
-  - "I appreciate your assistance, {name}."
-  - "Thanks, {name}! You’ve been very helpful."
-utter_sorry:
-  - "Sorry, {name}, for the inconvenience."
-  - "I apologize for the trouble, {name}."
-  - "Our apologies, {name}. We’ll do better next time."
+utter_ask_for_move:
+  - Please enter your chess move in UCI format (e.g., Move e2e4).
+
+utter_no_game_in_progress:
+  - There is no game in progress. Please start a new game first.
+
+utter_no_move_provided:
+  - Please provide a chess move in UCI format (e.g., Move e2e4).
+
+utter_move_accepted:
+  - You move {move}
+
+utter_illegal_move:
+  - The move {move} is not a legal move. Please try again.
+
+utter_move_wrong_format:
+  - The move {move} is not in the correct UCI format. Please try again.
+
+utter_ai_move:
+  - AI move {move}. Current board {board}
+
+utter_ai_illegal_move:
+  - The AI made an illegal move {move}. Starting a new game...
+
+utter_ai_error:
+  - An error occurred during the AI's move. Starting a new game.
+
+utter_status_error:
+  - An error occurred while checking the game status {error}. Starting a new game.
+
+utter_game_over:
+  - The game has ended. Would you like to start a new game?

@@ -26,7 +26,7 @@ responses = load_responses(RESPONSES_DIR)
 @app.route("/nlg", methods=["POST"])
 async def nlg(request):
     data = request.json
-    print("Received request:", data)
+    # print("Received request:", data)
     template_name = data.get("response")
     variables = data.get("arguments", {})
     
@@ -35,7 +35,7 @@ async def nlg(request):
         sender_id = tracker.get("sender_id")
         variables["name"] = sender_id
     
-    print(f"Available templates: {list(responses.keys())}")
+    # print(f"Available templates: {list(responses.keys())}")
     print(f"Requested template: {template_name}")
     
     if template_name in responses:

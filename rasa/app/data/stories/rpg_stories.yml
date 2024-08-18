@@ -9,7 +9,7 @@ stories:
 
 - story: Restart the game
   steps:
-  - intent: restart_rpg_game
+  - intent: restart_game
   - action: action_start_game
 
 - story: Move around

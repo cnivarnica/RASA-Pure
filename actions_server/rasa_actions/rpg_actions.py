@@ -515,7 +515,7 @@ class ActionExecuteTrade(Action):
             dispatcher.utter_message(text=f"You traded {trade_item} for {value} GP.")
             return [SlotSet("inventory", inventory), SlotSet("gp", gp), SlotSet("game_state", "exploring"), SlotSet("trade_item", None)]
         else:
-            dispatcher.utter_message(response="utter_trade_item_not_found" item=trade_item)
+            dispatcher.utter_message(response="utter_trade_item_not_found", item=trade_item)
             return [SlotSet("trade_item", None), SlotSet("game_state", "exploring")]
 
 class ActionAttack(Action):
@@ -541,10 +541,10 @@ class ActionAttack(Action):
                 return []
 
             if enemy in room_info.get("enemies", []):
-                dispatcher.utter_message(response="utter_start_combat" enemy=enemy)
+                dispatcher.utter_message(response="utter_start_combat", enemy=enemy)
                 return [SlotSet("game_state", "in_combat"), SlotSet("enemy", enemy)]
             else:
-                dispatcher.utter_message(response="utter_no_such_enemy" enemy=enemy)
+                dispatcher.utter_message(response="utter_no_such_enemy", enemy=enemy)
                 return []
 
         # Continue combat
@@ -585,7 +585,7 @@ class ActionAttack(Action):
             dispatcher.utter_message(text=message)
             return [SlotSet("hp", player_hp), SlotSet("game_state", "in_combat"), SlotSet("enemy", enemy)]
         else:
-            dispatcher.utter_message(response="utter_no_such_enemy" enemy=enemy)
+            dispatcher.utter_message(response="utter_no_such_enemy", enemy=enemy)
             return [SlotSet("game_state", "exploring"), SlotSet("enemy", None)]
 #
 class ActionRunAway(Action):
@@ -600,10 +600,10 @@ class ActionRunAway(Action):
             return []
         success_chance = 0.7
         if random.random() < success_chance:
-            dispatcher.utter_message(response="utter_run_success" enemy=enemy)
+            dispatcher.utter_message(response="utter_run_success", enemy=enemy)
             return [SlotSet("game_state", "exploring"), SlotSet("enemy", None)]
         else:
-            dispatcher.utter_message(response="utter_run_fail" enemy=enemy)
+            dispatcher.utter_message(response="utter_run_fail", enemy=enemy)
             return [FollowupAction("action_attack")]
 #
 class ActionCheckLevelUp(Action):
@@ -636,7 +636,7 @@ class ActionLevelUp(Action):
         
         level += 1
         xp -= next_level_xp
-        dispatcher.utter_message(response="utter_level_up" level=level)
+        dispatcher.utter_message(response="utter_level_up", level=level)
         dispatcher.utter_message(response="utter_choose_stat")
         return [SlotSet("level", level), SlotSet("xp", xp)]
 #
@@ -721,7 +721,7 @@ class ActionTalkToNPC(Action):
                 dispatcher.utter_message(response="utter_npc_gives_quest", npc=npc, quest=npc_info["quest"])
                 return [SlotSet("current_quest", npc_info["quest"]), SlotSet("npc", None)]
         else:
-            dispatcher.utter_message(response="utter_no_such_npc" npc=npc)
+            dispatcher.utter_message(response="utter_no_such_npc", npc=npc)
         
         return [SlotSet("npc", None)]
 
@@ -784,7 +784,7 @@ class ActionCastSpell(Action):
             return []
         
         if spell not in known_spells:
-            dispatcher.utter_message(response="utter_no_such_spell" spell=spell)
+            dispatcher.utter_message(response="utter_no_such_spell", spell=spell)
             return [SlotSet("spell", None)]
         
         if spell == "fireball":
@@ -793,9 +793,9 @@ class ActionCastSpell(Action):
                 enemy_info = enemies[enemy]
                 damage = 20
                 enemy_info["HP"] -= damage
-                dispatcher.utter_message(response="utter_cast_fireball" enemy=enemy damage=damage)
+                dispatcher.utter_message(response="utter_cast_fireball", enemy=enemy, damage=damage)
                 if enemy_info["HP"] <= 0:
-                    dispatcher.utter_message(response="utter_enemy_dies" enemy=enemy)
+                    dispatcher.utter_message(response="utter_enemy_dies", enemy=enemy)
                     return [SlotSet("in_combat", False), SlotSet("spell", None)]
                 else:
                     return [FollowupAction("action_attack"), SlotSet("spell", None)]
@@ -841,7 +841,7 @@ class ActionFish(Action):
                 fish = random.choice(["trout", "salmon", "catfish"])
                 inventory = tracker.get_slot("inventory") or []
                 inventory.append(fish)
-                dispatcher.utter_message(response="utter_fish_success" fish=fish)
+                dispatcher.utter_message(response="utter_fish_success", fish=fish)
                 return [SlotSet("inventory", inventory)]
             else:
                 dispatcher.utter_message(response="utter_fish_fail")
@@ -860,7 +860,7 @@ class ActionMine(Action):
                 ore = random.choice(["iron", "gold", "diamond"])
                 inventory = tracker.get_slot("inventory") or []
                 inventory.append(ore)
-                dispatcher.utter_message(response="utter_mine_success" ore=ore)
+                dispatcher.utter_message(response="utter_mine_success", ore=ore)
                 return [SlotSet("inventory", inventory)]
             else:
                 dispatcher.utter_message(response="utter_mine_fail")
@@ -885,7 +885,7 @@ class ActionRest(Action):
             return [SlotSet("hp", max_hp), FollowupAction("action_pass_time")]
         else:
             heal_amount = min(max_hp - tracker.get_slot("hp"), 20)
-            dispatcher.utter_message(response="utter_rest" hp=heal_amount)
+            dispatcher.utter_message(response="utter_rest", hp=heal_amount)
             return [SlotSet("hp", min(max_hp, (tracker.get_slot("hp") or 0) + heal_amount)), FollowupAction("action_pass_time")]
 #
 class ActionPassTime(Action):
